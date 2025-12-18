@@ -1,8 +1,24 @@
 import customtkinter as ctk
+import os 
 
 app = ctk.CTk()
 app.title("Login System")
 app.geometry("400x400")
+
+def guardar_usuari():
+
+    usuari = new_user_entry.get()
+    contra = new_pass_entry.get()
+
+    try:
+        with open("registre.txt", "w") as fitxer:
+            fitxer.write(f"{usuari}\n{contra}")
+        
+        print(f"S'ha guardat l'usuari: {usuari}")
+
+        etiqueta_missatge.configure(text="Saved successfully!", text_color="green")
+    except Exception as e:
+        etiqueta_missatge.configure(text=f"Error: {e}", text_color="red")
 
 
 def show_register():
@@ -14,7 +30,7 @@ def show_login():
     login_frame.pack(fill="both", expand=True, pady=20) # Mostra el menu de Login
 
 
-# Crea un contenidor transparent per al login
+# Crea un contenidor transparent per al login   
 login_frame = ctk.CTkFrame(app, fg_color="transparent")
 login_frame.pack(fill="both", expand=True, pady=20) 
 
@@ -52,8 +68,11 @@ new_user_entry.pack(pady=10)
 new_pass_entry = ctk.CTkEntry(register_frame, placeholder_text="New Password", show="*", width=200)
 new_pass_entry.pack(pady=10)
 
+etiqueta_missatge = ctk.CTkLabel(register_frame, text="", font=("Arial", 12))
+etiqueta_missatge.pack(pady=5)
+
 # Botó per confirmar la creació de compte
-btn_confirm = ctk.CTkButton(register_frame, text="Sign Up", fg_color="green", command=lambda: print("Registered!"))
+btn_confirm = ctk.CTkButton(register_frame, text="Sign Up", fg_color="green", command=guardar_usuari)
 btn_confirm.pack(pady=20)
 
 # Botó per tornar al menu de login
